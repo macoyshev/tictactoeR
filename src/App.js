@@ -1,23 +1,32 @@
 import React, {useState} from "react";
 
-function App() {
-  const [count, setCount] = useState(0)
+function Cell() {
+  const [move, setMove] = useState('')
 
-  function increment() {
-    setCount(count + 1)
+  function userMove() {
+    setMove('x')
   }
   
-  function decreement() {
-    setCount(count - 1)
+  function botMove() {
+    setMove('y')
   }
   
   return (
-    <div className="Counting">
-      count:{count}
-      <button onClick={increment}>+</button>
-      <button onClick={decreement}>-</button>
+    <div className="cell" onClick={userMove}>
+      {move}
     </div>
   );
 }
 
-export default App;
+
+function Board() {
+  return (
+    <div>
+      <Cell/><Cell/><Cell/>
+      <Cell/><Cell/><Cell/> 
+      <Cell/><Cell/><Cell/>
+    </div>
+  )
+}
+
+export default Board;
