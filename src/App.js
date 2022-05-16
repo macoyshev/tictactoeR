@@ -3,17 +3,33 @@ import React, {useState} from "react";
 class Cell extends React.Component {
   render() {
     return (
-      <div className="cell">
+      <button className="cell" onClick={() => this.props.onClick()}>
         {this.props.value}
-      </div>
-    );
+      </button>
+    )
   }
 }
 
 
 class Board extends React.Component {
-  renderCell(i) {
-    return <Cell value={i}/>
+  constructor(props) {
+    super(props)
+    this.state = {
+      cells: Array(9).fill(null)
+    }
+  }
+
+  handleClick(i) {
+    const cells = this.state.cells.slice()
+
+    cells[i] = 'X'
+    console.log('x');
+    
+    this.setState({cells: cells})
+  }
+
+  renderCell(i) { 
+    return <Cell value={this.state.cells[i]} onClick={() => this.handleClick(i)}/>
   }
 
   render() {
