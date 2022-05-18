@@ -1,86 +1,43 @@
-import React, {useState} from "react";
+import {useState} from 'react'
 
 
-class Cell extends React.Component {
-  render() {
-    return (
-      <button className="cell" onClick={() => this.props.onClick()}>
-        {this.props.value}
-      </button>
-    )
-  }
+function Cell(props) {
+  return (
+    <button className="cell" onClick={props.onClick}>
+      {props.value}
+    </button>
+  )
 }
 
 
-class Board extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      cells: Array(9).fill(null)
-    }
-    this.cellsEmptyCount = () => {
-      let count = 0
-      this.state.cells.forEach((e) => {
-        if (!e) {
-          count += 1
-        }
-      })
+function Board() {
+  let [board, setBoard] = useState(Array(9).fill(null))
 
-      return count
-    }
-  }
-
-  getBotMove() {
-    let index = Math.floor(Math.random() * 9)
-    let cell = this.state.cells[index]
-
-    while (cell != null) {
-      index = Math.floor(Math.random() * 9)
-      cell = this.state.cells[index]
-    }
-    
-    return index
+  let changeCell = (index) => {
+    let brd = board.slice()
+    brd[index] = 'x'
+    setBoard(brd)
   }
   
-
-  handleClick(i) {
-    const cells = this.state.cells.slice()
-
-    if (cells[i] == null) {
-      cells[i] = 'X'
-      this.setState({cells: cells})
-      
-      cells[this.getBotMove()] = 'O'
-      this.setState({cells: cells})
-    }
-  }
-
-  renderCell(i) { 
-    return <Cell value={this.state.cells[i]} onClick={() => this.handleClick(i)}/>
-  }
-
-  render() {
-    return (
-      <div>
-        <div className="board-row">
-          {this.renderCell(1)}
-          {this.renderCell(2)}
-          {this.renderCell(3)}
-        </div>
-        <div className="board-row">
-          {this.renderCell(4)}
-          {this.renderCell(5)}
-          {this.renderCell(6)}
-        </div>
-        <div className="board-row">
-          {this.renderCell(7)}
-          {this.renderCell(8)}
-          {this.renderCell(9)}
-        </div>
+  return (
+    <div className="board">
+      <div className="board-row">
+        <Cell value={board[0]} onClick={() => changeCell(0)}/>
+        <Cell value={board[1]} onClick={() => changeCell(1)}/>
+        <Cell value={board[2]} onClick={() => changeCell(2)}/>
       </div>
-    );
-  }
+      <div className="board-row">
+        <Cell value={board[3]} onClick={() => changeCell(3)}/>
+        <Cell value={board[4]} onClick={() => changeCell(4)}/>
+        <Cell value={board[5]} onClick={() => changeCell(5)}/>
+      </div>  
+      <div className="board-row">
+        <Cell value={board[6]} onClick={() => changeCell(6)}/>
+        <Cell value={board[7]} onClick={() => changeCell(7)}/>
+        <Cell value={board[8]} onClick={() => changeCell(8)}/>
+      </div>
+    </div>
+  )
 }
-
 
 export default Board;
