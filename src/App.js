@@ -13,12 +13,49 @@ function Cell(props) {
 function Board() {
   let [board, setBoard] = useState(Array(9).fill(null))
 
+  let isEmptyCell = () => {
+    board.forEach(e => {
+      if (e == null) {
+        return true
+      }
+    })
+
+    return false
+  }
+
+  let emptyIndexCell = () => {
+    let brd = board.slice()
+    let index = Math.floor(Math.random() * 8)
+    let cell = brd[index]
+
+    while (cell != null) {
+      index = Math.floor(Math.random() * 8)
+      cell = brd[index]
+    }
+    
+    return index
+  }
+
   let changeCell = (index) => {
     let brd = board.slice()
-    brd[index] = 'x'
-    setBoard(brd)
+    let cell = brd[index]
+
+    if (cell == null) {
+      //user move
+      brd[index] = 'x'
+      setBoard(brd)
+
+      if (!isEmptyCell) {
+        alert('Game Over')
+        return 
+      }
+      
+      //bot move
+      brd[emptyIndexCell()] = 'o'
+      setBoard(brd)
+    }
   }
-  
+
   return (
     <div className="board">
       <div className="board-row">
