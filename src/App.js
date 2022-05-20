@@ -14,16 +14,19 @@ function Board() {
   let [board, setBoard] = useState(Array(9).fill(null))
 
   let isEmptyCell = () => {
-    board.forEach(e => {
+    let res = false
+    board.forEach((e) => {
       if (e == null) {
-        return true
+        res = true
+        return
       }
     })
-
-    return false
+    
+    return res
   }
 
   let emptyIndexCell = () => {
+    
     let brd = board.slice()
     let index = Math.floor(Math.random() * 8)
     let cell = brd[index]
@@ -31,6 +34,7 @@ function Board() {
     while (cell != null) {
       index = Math.floor(Math.random() * 8)
       cell = brd[index]
+      console.log('in loop');
     }
     
     return index
@@ -43,16 +47,25 @@ function Board() {
     if (cell == null) {
       //user move
       brd[index] = 'x'
+      board = brd
       setBoard(brd)
 
-      if (!isEmptyCell) {
+      if (!isEmptyCell()) {
         alert('Game Over')
         return 
       }
       
       //bot move
       brd[emptyIndexCell()] = 'o'
+      board = brd
       setBoard(brd)
+      
+      if (!isEmptyCell) {
+        alert('Game Over')
+        return 
+      }
+
+      console.log(board);
     }
   }
 
