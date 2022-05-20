@@ -40,15 +40,27 @@ function Board() {
     return index
   }
 
-  let changeCell = (index) => {
+  let userMove = (index) => {
     let brd = board.slice()
-    let cell = brd[index]
+
+    brd[index] = 'x'
+    board = brd
+    setBoard(brd)
+  }
+
+  let botMove = () => {
+    let brd = board.slice()
+
+    brd[emptyIndexCell()] = 'o'
+    setBoard(brd)
+  }
+
+  let changeCell = (index) => {
+    let cell = board[index]
 
     if (cell == null) {
       //user move
-      brd[index] = 'x'
-      board = brd
-      setBoard(brd)
+      userMove(index)
 
       if (!isEmptyCell()) {
         alert('Game Over')
@@ -56,16 +68,12 @@ function Board() {
       }
       
       //bot move
-      brd[emptyIndexCell()] = 'o'
-      board = brd
-      setBoard(brd)
+      botMove()
       
       if (!isEmptyCell) {
         alert('Game Over')
         return 
       }
-
-      console.log(board);
     }
   }
 
