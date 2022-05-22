@@ -12,6 +12,10 @@ function Cell(props) {
 
 function Board() {
   let [board, setBoard] = useState(Array(9).fill(null))
+  
+  let winnter = () => {
+    
+  }
 
   let isEmptyCell = () => {
     let res = false
