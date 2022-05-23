@@ -11,15 +11,7 @@ function Cell(props) {
 
 
 function Board() {
-  let [board, setBoard] = useState(Array(3).fill(null).map(() => Array(3)))
-  
-  let getBroadCopy = () => {
-    let newArray = []
-    for (var i = 0; i < board.length; i++)
-        newArray[i] = board[i].slice();
-      
-    return newArray
-  }
+  let [board, setBoard] = useState(Array(9).fill(null))
 
   let winnter = () => {
   }
@@ -27,9 +19,8 @@ function Board() {
   let isEmptyCell = () => {
     let res = false
     board.forEach((e) => {
-      if (e) {
+      if (e == null) {
         res = true
-        return
       }
     })
     
@@ -37,35 +28,33 @@ function Board() {
   }
 
   let emptyIndexCell = () => {
-    
-    let brd = getBroadCopy()
     let index = Math.floor(Math.random() * 8)
-    let cell = brd[Math.floor(index / 3)][index % 3]
+    let cell = board[index]
 
-    while (!cell) {
+    while (cell != null) {
       index = Math.floor(Math.random() * 8)
-      cell = brd[Math.floor(index / 3)][index % 3]
+      cell = board[index]
     }
     
     return index
   }
 
   let userMove = (index) => {
-    let brd = getBroadCopy()
-    brd[Math.floor(index / 3)][index % 3] = 'x'
+    let brd = board.slice()
+    brd[index] = 'x'
     board = brd
     setBoard(brd)
     console.log(board);
   }
 
   let botMove = () => {
-    let brd = getBroadCopy()
+    let brd = board.slice()
     brd[emptyIndexCell()] = 'o'
     setBoard(brd)
   }
 
   let changeCell = (index) => {
-    let cell = board[Math.floor(index / 3)][index % 3]
+    let cell = board[index]
 
     if (cell == null) {
       //user move
@@ -79,7 +68,7 @@ function Board() {
       //bot move
       botMove()
       
-      if (!isEmptyCell) {
+      if (!isEmptyCell()) {
         alert('Game Over')
         return 
       }
